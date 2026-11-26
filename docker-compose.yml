@@ -1,0 +1,27 @@
+# PostgreSQL + pgvector（本地开发用）
+# 启动：npm run db:up     停止：npm run db:down     日志：npm run db:logs
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: travel-agent-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: travel
+      POSTGRES_PASSWORD: travel
+      POSTGRES_DB: travel
+      # 中文全文检索不用，向量检索为主
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      - travel_pgdata:/var/lib/postgresql/data
+      # 首次初始化时自动创建 vector 扩展
+      - ./scripts/init-pg.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U travel -d travel"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  travel_pgdata:

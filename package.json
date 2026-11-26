@@ -1,0 +1,53 @@
+{
+  "name": "travel-agent-pi",
+  "version": "1.0.0",
+  "description": "基于 pi 框架的智能旅行规划 Agent：约束可验证行程生成、抗扰动重规划、权限控制与因果归因",
+  "type": "module",
+  "main": "dist/demo.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "tsx src/server/index.ts",
+    "build": "tsc",
+    "demo": "tsx src/demo.ts",
+    "pi": "tsx src/agents/run-pi.ts",
+    "server": "tsx src/server/index.ts",
+    "dev:server": "tsx watch src/server/index.ts",
+    "dev:web": "npm --prefix web run dev",
+    "build:web": "npm --prefix web run build",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "test": "node --import tsx --test tests/core.test.ts tests/resilience_full.test.ts tests/api.test.ts tests/storage.test.ts tests/route-utils.test.ts tests/preferences.test.ts",
+    "test:api": "node --import tsx --test tests/api.test.ts",
+    "typecheck": "tsc --noEmit",
+    "gate": "tsx scripts/gate-check.ts",
+    "clean:traces": "tsx scripts/clean-traces.ts"
+  },
+  "keywords": [
+    "travel-agent",
+    "pi-framework",
+    "agent",
+    "itinerary-planner",
+    "resilience",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.17",
+    "@hono/node-server": "^1.13.0",
+    "@mariozechner/pi-agent-core": "^0.73.0",
+    "@mariozechner/pi-ai": "^0.73.0",
+    "@sinclair/typebox": "^0.34.52",
+    "hono": "^4.6.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
